@@ -57,14 +57,15 @@ contract ERC20Token is ERC20Interface {
     return balances[_owner];
   }
 
-  // Set
+  // Records that a transaction is authorized using the allowed() mapping function
   function approve(address _spender, uint256 _value) public returns (bool success) {
     allowed[msg.sender][_spender] = _value;
     emit Approval(msg.sender, _spender, _value); //solhint-disable-line indent, no-unused-vars
     return true;
   }
 
-  // Return the
+  // Returns a value of whatever a specifric account is allowed to spend on a specific spender, then
+  // gets mapped to the approve function
   function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
     return allowed[_owner][_spender];
   }
