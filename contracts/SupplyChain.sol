@@ -63,25 +63,27 @@ contract supplyChain {
     );
   }
 
-  function addProduct(uint32 _ownerId,
+  function addProduct(
+    uint32 _ownerId,
     string memory _modelNumber,
     string memory _partNumber,
     string memory _serialNumber,
-    uint32 _productCost) public returns (uint32) {
-      if(keccak256(abi.encodePacked(participants[_ownerId].participantType)) == keccak256("Manufacturer")) {
-        uint32 productId = product_id++;
+    uint32 _productCost
+  ) public returns (uint32) {
+    if(keccak256(abi.encodePacked(participants[_ownerId].participantType)) == keccak256("Manufacturer")) {
+      uint32 productId = product_id++;
 
-        products[productId].modelNumber = _modelNumber;
-        products[productId].partNumber = _partNumber;
-        products[productId].serialNumber = _serialNumber;
-        products[productId].cost = _productCost;
-        products[productId].productOwner = participants[_ownerId].participantAddress;
-        products[productId].mfgTimeStamp = uint32(block.timestamp);
+      products[productId].modelNumber = _modelNumber;
+      products[productId].partNumber = _partNumber;
+      products[productId].serialNumber = _serialNumber;
+      products[productId].cost = _productCost;
+      products[productId].productOwner = participants[_ownerId].participantAddress;
+      products[productId].mfgTimeStamp = uint32(block.timestamp);
 
-        return productId;
-      }
-      return 0;
+      return productId;
     }
+    return 0;
+  }
 
   modifier onlyOwner(uint32 _productId) {
     require(msg.sender == products[_productId].productOwner,"");
@@ -90,7 +92,8 @@ contract supplyChain {
   }
 
   function getProduct(
-    uint32 _productId) public view returns (string memory,string memory,string memory,uint32,address,uint32) {
+    uint32 _productId
+  ) public view returns (string memory,string memory,string memory,uint32,address,uint32) {
     
     return (
       products[_productId].modelNumber,
@@ -105,7 +108,8 @@ contract supplyChain {
   function newOwner(
     uint32 _user1Id,
     uint32 _user2Id, 
-    uint32 _prodId) onlyOwner(_prodId) public returns (bool) {
+    uint32 _prodId) onlyOwner(_prodId
+  ) public returns (bool) {
     
     participant memory p1 = participants[_user1Id];
     participant memory p2 = participants[_user2Id];
@@ -161,7 +165,9 @@ contract supplyChain {
     uint32 _uid,
     string memory _uname,
     string memory _pass,
-    string memory _utype) public view returns (bool) {
+    string memory _utype
+  ) public view returns (bool) {
+    
     if(keccak256(abi.encodePacked(participants[_uid].participantType)) == keccak256(abi.encodePacked(_utype))) {
       if(keccak256(abi.encodePacked(participants[_uid].userName)) == keccak256(abi.encodePacked(_uname))) {
         if(keccak256(abi.encodePacked(participants[_uid].password)) == keccak256(abi.encodePacked(_pass))) {
